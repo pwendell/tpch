@@ -1,0 +1,16 @@
+select 
+  c_count, count(1) as custdist
+from 
+  (select c_custkey, count(o_orderkey) as c_count
+   from 
+     (select distinct c_custkey, o_orderkey
+       from denorm where not o_comment like '%special%requests%') a
+   group by c_custkey
+   ) c_orders
+group by c_count
+order by custdist desc, c_count desc;
+
+CONFIRMED
+
+Show a distribution of orders per customers, excluding orders which are
+special requests.
