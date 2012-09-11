@@ -5,7 +5,7 @@ from
   select year(o_orderdate) as o_year, 
          l_extendedprice * (1-l_discount) as volume, 
          n_name as nation
-  from denorm where r_name = 'AMERICA' and 
+  from denorm_cached where r_name = 'AMERICA' and 
                     o_orderdate >= '1995-01-01' and 
                     o_orderdate < '1996-12-31' and 
                     p_type = 'ECONOMY ANODIZED STEEL'

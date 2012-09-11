@@ -1,8 +1,0 @@
-select count(1), o_orderpriority from 
-  (select distinct l_orderkey, o_orderpriority from denorm_cached where
-    o_orderdate >= '1993-07-01' and 
-    o_orderdate < '1993-10-01' and
-    l_commitdate < l_receiptdate) a
-  group by o_orderpriority;
-
-CONFIRMED SAME
