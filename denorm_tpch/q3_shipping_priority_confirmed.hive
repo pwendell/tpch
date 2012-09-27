@@ -1,0 +1,9 @@
+select --3-- 
+  l_orderkey, sum(l_extendedprice*(1-l_discount)) as revenue, o_orderdate, o_shippriority 
+from 
+  denorm_cached
+where 
+  o_orderdate < '1995-03-15' and l_shipdate > '1995-03-15' and c_mktsegment = 'BUILDING'
+group by l_orderkey, o_orderdate, o_shippriority 
+order by revenue desc, o_orderdate 
+limit 10;

@@ -1,0 +1,12 @@
+select --2--
+  s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment 
+from 
+  (select p_partkey as pkey, min(ps_supplycost) as min_supplycost
+    from denorm_cached 
+    where r_name = 'EUROPE' and p_size = 15 and p_type like '%BRASS'
+    group by p_partkey) t1
+ join denorm_cached dn on 
+  t1.pkey = dn.p_partkey and t1.min_supplycost = dn.ps_supplycost
+group by s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment
+order by s_acctbal desc, n_name, s_name, p_partkey 
+limit 100;
