@@ -1,0 +1,9 @@
+select
+  c_name, c_custkey, o_orderkey, o_orderdate, o_totalprice, sum(l_quantity) as o_quantity
+from
+  denorm_cached
+group by c_name,c_custkey,o_orderkey,o_orderdate,o_totalprice
+having sum(l_quantity) > 300
+order by o_totalprice desc,o_orderdate
+limit 100;
+

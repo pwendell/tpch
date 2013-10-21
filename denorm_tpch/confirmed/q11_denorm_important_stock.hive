@@ -1,0 +1,25 @@
+select ps_partkey, part_value as value
+from 
+  (
+  select ps_partkey, part_value, total_value
+  from 
+    (
+    select ps_partkey, sum(ps_supplycost * ps_availqty) as part_value
+    from 
+    (
+      select distinct ps_partkey, ps_supplycost, ps_availqty, s_n_name
+      from denorm_cached
+    ) d
+    where
+      s_n_name = 'GERMANY'
+    group by ps_partkey
+  ) a
+  join
+    (  
+    select sum(ps_supplycost * ps_availqty) as total_value
+    from denorm_cached
+    where s_n_name = 'GERMANY'
+    ) b
+  ) c
+where part_value > total_value * 0.0001
+order by value desc;

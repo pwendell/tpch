@@ -1,0 +1,10 @@
+select
+  c_custkey, c_name, sum(l_extendedprice * (1 - l_discount)) as revenue,
+  c_acctbal, c_n_name, c_address, c_phone, c_comment
+from
+  denorm_cached
+where
+  o_orderdate >= '1993-10-01' and o_orderdate < '1994-01-01' and l_returnflag = 'R'
+group by c_custkey, c_name, c_acctbal, c_phone, c_n_name, c_address, c_comment
+order by revenue desc
+limit 20;
